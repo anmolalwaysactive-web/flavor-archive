@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Flavor Archive</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <span class="logo-icon">🍴</span>
+                <h1><span class="orange-text" style="color: #ff9f43;">Flavor</span><span class="green-text">Archive</span></h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/recipes/add">Add Recipe</a></li>
+                <li><a href="/blog" class="active">Blog</a></li>
+            </ul>
+            <div class="nav-actions">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="q" placeholder="Search recipes..." class="search-input">
+                    <button type="submit" class="search-btn">🔍 Search</button>
+                </form>
+                <button class="account-btn">👤 Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <section style="height: 380px; background: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=1600&h=500&fit=crop') center/cover no-repeat; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.45);"></div>
+        <div class="container" style="position: relative; z-index: 2; text-align: center;">
+            <h2 style="font-size: 48px; font-weight: 800; color: white; margin-bottom: 12px; text-shadow: 0 3px 10px rgba(0,0,0,0.4); line-height: 1.2;">📖 Flavor Archive Blog</h2>
+            <p style="font-size: 18px; color: rgba(255,255,255,0.95); text-shadow: 0 2px 6px rgba(0,0,0,0.4); font-weight: 300;">Explore culinary stories, tips, and recipes from our community</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <% if (posts && posts.length > 0) { %>
+                <section style="padding: 60px 0;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px;">
+                        <% posts.forEach(post => { %>
+                            <article style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.05);" onmouseover="this.style.boxShadow='0 8px 16px rgba(0,0,0,0.12)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.boxShadow='0 1px 3px rgba(0,0,0,0.08)'; this.style.transform='translateY(0)';">
+                                <img src="<%= post.image %>" alt="<%= post.title %>" style="width: 100%; height: 160px; object-fit: cover;">
+                                <div style="padding: 20px;">
+                                    <h3 style="margin-bottom: 8px; font-size: 17px; color: var(--text-dark); line-height: 1.4; font-weight: 600;">
+                                        <a href="/blog/<%= post._id %>" style="text-decoration: none; color: inherit;">
+                                            <%= post.title.length > 50 ? post.title.substring(0, 50) + '...' : post.title %>
+                                        </a>
+                                    </h3>
+                                    <p style="color: var(--text-muted); font-size: 11px; margin-bottom: 12px;">✍️ <%= post.author %> • 📅 <%= new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %></p>
+                                    <p style="color: var(--text-light); font-size: 13px; line-height: 1.5; margin-bottom: 12px;">
+                                        <%= post.content.substring(0, 90) %>...
+                                    </p>
+                                    <% if (post.tags && post.tags.length > 0) { %>
+                                        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px;">
+                                            <% post.tags.slice(0, 2).forEach(tag => { %>
+                                                <span style="background: var(--light-green); color: var(--primary-green); padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;">📌 <%= tag %></span>
+                                            <% }); %>
+                                        </div>
+                                    <% } %>
+                                    <a href="/blog/<%= post._id %>" class="btn btn-primary" style="width: 100%; text-align: center; padding: 10px 0; font-size: 13px; text-decoration: none; display: block;">Read Article →</a>
+                                </div>
+                            </article>
+                        <% }); %>
+                    </div>
+                </section>
+            <% } else { %>
+                <div style="background: white; padding: 80px 20px; border-radius: 8px; text-align: center; margin-top: 40px;">
+                    <h3 style="font-size: 24px; color: var(--text-dark); margin-bottom: 10px;">📖 No blog posts yet</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Check back soon for culinary stories and cooking tips from our community!</p>
+                </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Flavor Archive. All rights reserved. | Made with ❤️ for food lovers</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

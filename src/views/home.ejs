@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavor Archive - Discover Your Next Favorite Meal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <span class="logo-icon">🍴</span>
+                <h1><span class="orange-text" style="color: #ff9f43;">Flavor</span><span class="green-text">Archive</span></h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/recipes/add">Add Recipe</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            <div class="nav-actions">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="q" placeholder="Search specific recipes, ingredients, or keywords..." class="search-input">
+                    <button type="submit" class="search-btn">🔍 Search</button>
+                </form>
+                <button class="account-btn">👤 Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Blunt Image -->
+    <section style="height: 500px; background: url('https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=1600&h=500&fit=crop') center/cover no-repeat; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4);"></div>
+        <div class="container" style="position: relative; z-index: 2; text-align: center;">
+            <h2 style="font-size: 56px; font-weight: 800; color: white; margin-bottom: 15px; text-shadow: 0 4px 12px rgba(0,0,0,0.4); line-height: 1.2;">Discover Your Next Favorite Meal</h2>
+            <p style="font-size: 20px; color: rgba(255,255,255,0.95); margin-bottom: 35px; text-shadow: 0 2px 6px rgba(0,0,0,0.4); font-weight: 300;">Explore recipes and culinary inspiration from our community</p>
+            <a href="/recipes" class="btn btn-primary" style="padding: 16px 50px; font-size: 16px; text-decoration: none; display: inline-block;">Browse Recipes →</a>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <!-- Featured Recipes -->
+            <% if (recipes && recipes.length > 0) { %>
+                <section style="padding: 60px 0;">
+                    <div style="margin-bottom: 40px;">
+                        <h2 style="font-size: 28px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">⭐ Top Rated Recipes</h2>
+                        <p style="color: var(--text-muted); font-size: 14px;">Most loved recipes from our community</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+                        <% recipes.forEach(recipe => { %>
+                            <div class="recipe-card">
+                                <div class="recipe-card-image" style="height: 150px;">
+                                    <img src="<%= recipe.image %>" alt="<%= recipe.name %>" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="recipe-badges">
+                                        <span class="badge badge-mealtype" style="font-size: 10px; padding: 4px 8px;"><%= recipe.mealType %></span>
+                                    </div>
+                                </div>
+                                <div class="recipe-card-content" style="padding: 16px;">
+                                    <h3 style="font-size: 16px; margin-bottom: 4px; font-weight: 600;">
+                                        <a href="/recipes/<%= recipe._id %>" style="text-decoration: none; color: var(--text-dark);">
+                                            <%= recipe.name.length > 30 ? recipe.name.substring(0, 30) + '...' : recipe.name %>
+                                        </a>
+                                    </h3>
+                                    <p class="cuisine-type" style="font-size: 11px; margin-bottom: 8px;"><%= recipe.cuisine %></p>
+                                    
+                                    <div class="rating-section" style="margin-bottom: 10px;">
+                                        <div class="stars" style="font-size: 14px;">
+                                            <% for(let i = 1; i <= 5; i++) { %>
+                                                <span class="star <%= parseFloat(recipe.averageRating) >= i ? 'active' : '' %>">★</span>
+                                            <% } %>
+                                        </div>
+                                        <span class="rating-count" style="font-size: 11px; margin-left: 6px;"><%= parseFloat(recipe.averageRating).toFixed(1) %> (<%= recipe.ratings ? recipe.ratings.length : 0 %>)</span>
+                                    </div>
+
+                                    <div class="recipe-meta-info" style="font-size: 10px; margin-bottom: 12px; gap: 8px;">
+                                        <span>⏱️ <%= recipe.cookTime %></span>
+                                        <span>👥 <%= recipe.servings %></span>
+                                    </div>
+
+                                    <a href="/recipes/<%= recipe._id %>" class="btn btn-primary" style="width: 100%; text-align: center; padding: 10px 0; font-size: 13px; text-decoration: none;">View Recipe</a>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <div style="text-align: center; margin-top: 35px;">
+                        <a href="/recipes" class="btn btn-outline" style="padding: 12px 36px; font-size: 14px; text-decoration: none;">View All Recipes →</a>
+                    </div>
+                </section>
+            <% } %>
+
+            <!-- Divider -->
+            <div style="height: 1px; background: var(--border); margin: 50px 0;"></div>
+
+            <!-- Latest Blog Posts -->
+            <% if (posts && posts.length > 0) { %>
+                <section style="padding: 70px 0;">
+                    <div style="margin-bottom: 50px;">
+                        <h2 style="font-size: 32px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;">📝 Latest Articles</h2>
+                        <p style="color: var(--text-muted); font-size: 15px;">Tips, tricks, and culinary inspiration</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 35px;">
+                        <% posts.forEach(post => { %>
+                            <article style="background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='var(--shadow-lg)'; this.style.transform='translateY(-6px)';" onmouseout="this.style.boxShadow='var(--shadow)'; this.style.transform='translateY(0)';">
+                                <img src="<%= post.image %>" alt="<%= post.title %>" style="width: 100%; height: 200px; object-fit: cover;">
+                                <div style="padding: 25px;">
+                                    <h3 style="margin-bottom: 10px; font-size: 19px; color: var(--text-dark); line-height: 1.3; font-weight: 600;"><%= post.title %></h3>
+                                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 15px;">✍️ <%= post.author %> • 📅 <%= new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></p>
+                                    <p style="color: var(--text-light); font-size: 14px; line-height: 1.6; margin-bottom: 18px;"><%= post.content.substring(0, 110) %>...</p>
+                                    <a href="/blog/<%= post._id %>" class="btn btn-primary" style="width: 100%; text-align: center; text-decoration: none; display: block;">Read Article →</a>
+                                </div>
+                            </article>
+                        <% }); %>
+                    </div>
+                    <div style="text-align: center; margin-top: 45px;">
+                        <a href="/blog" class="btn btn-outline" style="padding: 13px 40px; font-size: 15px; text-decoration: none;">View All Articles →</a>
+                    </div>
+                </section>
+            <% } %>
+
+            <!-- Divider -->
+            <div style="height: 1px; background: var(--border); margin: 50px 0;"></div>
+
+            <!-- CTA Section -->
+            <section style="padding: 70px 40px; background: linear-gradient(135deg, var(--light-green) 0%, rgba(232, 245, 233, 0.5) 100%); border-radius: 12px; text-align: center; margin: 50px 0;">
+                <h2 style="font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;">Share Your Recipe</h2>
+                <p style="color: var(--text-light); margin-bottom: 30px; font-size: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">Have a favorite recipe? Join our community and share your culinary creations with food lovers worldwide</p>
+                <a href="/recipes/add" class="btn btn-primary" style="padding: 15px 45px; font-size: 15px; text-decoration: none; display: inline-block;">➕ Add Your Recipe</a>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Flavor Archive. All rights reserved. | Made with ❤️ for food lovers</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

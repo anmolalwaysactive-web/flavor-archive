@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Recipe - Flavor Archive</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <span class="logo-icon">🍴</span>
+                <h1><span class="orange-text">Flavor</span><span class="green-text">Archive</span></h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/recipes/add">Add Recipe</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            <div class="nav-actions">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="q" placeholder="Search recipes..." class="search-input">
+                    <button type="submit" class="search-btn">🔍 Search</button>
+                </form>
+                <button class="account-btn">👤 Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <h2>✏️ Edit Recipe</h2>
+                <form action="/recipes/edit/<%= recipe._id %>" method="POST" class="recipe-form">
+                    
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h3>📋 Basic Information</h3>
+                        <div class="form-group">
+                            <label for="name">Recipe Name *</label>
+                            <input type="text" id="name" name="name" required placeholder="e.g., Spaghetti Carbonara" value="<%= recipe.name %>">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description *</label>
+                            <textarea id="description" name="description" required placeholder="Describe your recipe in detail..."><%= recipe.description %></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cuisine">Cuisine Type *</label>
+                                <input type="text" id="cuisine" name="cuisine" required placeholder="e.g., Italian, Asian, Mexican" value="<%= recipe.cuisine %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mealType">Meal Type *</label>
+                                <select id="mealType" name="mealType" required>
+                                    <option value="">Select meal type...</option>
+                                    <option value="Breakfast" <%= recipe.mealType === 'Breakfast' ? 'selected' : '' %>>🌅 Breakfast</option>
+                                    <option value="Lunch" <%= recipe.mealType === 'Lunch' ? 'selected' : '' %>>🍽️ Lunch</option>
+                                    <option value="Dinner" <%= recipe.mealType === 'Dinner' ? 'selected' : '' %>>🌙 Dinner</option>
+                                    <option value="Dessert" <%= recipe.mealType === 'Dessert' ? 'selected' : '' %>>🍰 Dessert</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="difficulty">Difficulty Level *</label>
+                                <select id="difficulty" name="difficulty" required>
+                                    <option value="">Select difficulty...</option>
+                                    <option value="Easy" <%= recipe.difficulty === 'Easy' ? 'selected' : '' %>>🟢 Easy</option>
+                                    <option value="Medium" <%= recipe.difficulty === 'Medium' ? 'selected' : '' %>>🟡 Medium</option>
+                                    <option value="Hard" <%= recipe.difficulty === 'Hard' ? 'selected' : '' %>>🔴 Hard</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recipe Details -->
+                    <div class="form-section">
+                        <h3>⏱️ Recipe Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="servings">Servings *</label>
+                                <input type="number" id="servings" name="servings" required min="1" placeholder="4" value="<%= recipe.servings %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cookTime">Cook Time *</label>
+                                <input type="text" id="cookTime" name="cookTime" required placeholder="e.g., 30 minutes" value="<%= recipe.cookTime %>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Image Upload/Selection -->
+                    <div class="image-upload-section">
+                        <h3>🖼️ Recipe Image</h3>
+                        
+                        <!-- Tab Navigation -->
+                        <div class="image-tabs">
+                            <button type="button" class="tab-btn active" onclick="switchTab('gallery', event)">📁 From Gallery</button>
+                            <button type="button" class="tab-btn" onclick="switchTab('url', event)">🔗 From URL</button>
+                        </div>
+
+                        <!-- Gallery Tab -->
+                        <div id="gallery" class="tab-content active">
+                            <div class="image-gallery">
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/asian.webp" <%= recipe.image === '/images/asian.webp' ? 'checked' : '' %> onchange="previewImage('/images/asian.webp')">
+                                    <img src="/images/asian.webp" alt="Asian">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/chocochips.webp" <%= recipe.image === '/images/chocochips.webp' ? 'checked' : '' %> onchange="previewImage('/images/chocochips.webp')">
+                                    <img src="/images/chocochips.webp" alt="Choco Chips">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/garlic.webp" <%= recipe.image === '/images/garlic.webp' ? 'checked' : '' %> onchange="previewImage('/images/garlic.webp')">
+                                    <img src="/images/garlic.webp" alt="Garlic">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/green.webp" <%= recipe.image === '/images/green.webp' ? 'checked' : '' %> onchange="previewImage('/images/green.webp')">
+                                    <img src="/images/green.webp" alt="Green">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/hhome.webp" <%= recipe.image === '/images/hhome.webp' ? 'checked' : '' %> onchange="previewImage('/images/hhome.webp')">
+                                    <img src="/images/hhome.webp" alt="Home">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/home.jpg" <%= recipe.image === '/images/home.jpg' ? 'checked' : '' %> onchange="previewImage('/images/home.jpg')">
+                                    <img src="/images/home.jpg" alt="Home">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/indain.webp" <%= recipe.image === '/images/indain.webp' ? 'checked' : '' %> onchange="previewImage('/images/indain.webp')">
+                                    <img src="/images/indain.webp" alt="Indian">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/italian.webp" <%= recipe.image === '/images/italian.webp' ? 'checked' : '' %> onchange="previewImage('/images/italian.webp')">
+                                    <img src="/images/italian.webp" alt="Italian">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/knife skills.webp" <%= recipe.image === '/images/knife skills.webp' ? 'checked' : '' %> onchange="previewImage('/images/knife skills.webp')">
+                                    <img src="/images/knife skills.webp" alt="Knife Skills">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/lemonbars.jpeg" <%= recipe.image === '/images/lemonbars.jpeg' ? 'checked' : '' %> onchange="previewImage('/images/lemonbars.jpeg')">
+                                    <img src="/images/lemonbars.jpeg" alt="Lemon Bars">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/lunch.jpg" <%= recipe.image === '/images/lunch.jpg' ? 'checked' : '' %> onchange="previewImage('/images/lunch.jpg')">
+                                    <img src="/images/lunch.jpg" alt="Lunch">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/mealprep.webp" <%= recipe.image === '/images/mealprep.webp' ? 'checked' : '' %> onchange="previewImage('/images/mealprep.webp')">
+                                    <img src="/images/mealprep.webp" alt="Meal Prep">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/mexican.webp" <%= recipe.image === '/images/mexican.webp' ? 'checked' : '' %> onchange="previewImage('/images/mexican.webp')">
+                                    <img src="/images/mexican.webp" alt="Mexican">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/pizzadough.jpeg" <%= recipe.image === '/images/pizzadough.jpeg' ? 'checked' : '' %> onchange="previewImage('/images/pizzadough.jpeg')">
+                                    <img src="/images/pizzadough.jpeg" alt="Pizza Dough">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/soup.webp" <%= recipe.image === '/images/soup.webp' ? 'checked' : '' %> onchange="previewImage('/images/soup.webp')">
+                                    <img src="/images/soup.webp" alt="Soup">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/spices.webp" <%= recipe.image === '/images/spices.webp' ? 'checked' : '' %> onchange="previewImage('/images/spices.webp')">
+                                    <img src="/images/spices.webp" alt="Spices">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/spicy.webp" <%= recipe.image === '/images/spicy.webp' ? 'checked' : '' %> onchange="previewImage('/images/spicy.webp')">
+                                    <img src="/images/spicy.webp" alt="Spicy">
+                                </label>
+                                <label class="image-option">
+                                    <input type="radio" name="image" value="/images/tamato_soup.webp" <%= recipe.image === '/images/tamato_soup.webp' ? 'checked' : '' %> onchange="previewImage('/images/tamato_soup.webp')">
+                                    <img src="/images/tamato_soup.webp" alt="Tomato Soup">
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- URL Tab -->
+                        <div id="url" class="tab-content">
+                            <div class="form-group">
+                                <label for="imageUrl">Image URL</label>
+                                <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/recipe-image.jpg" value="<% if (recipe.image && recipe.image.startsWith('http')) { %><%= recipe.image %><% } %>">
+                                <small style="color: var(--text-muted); display: block; margin-top: 5px;">Enter a URL and it will override gallery selection</small>
+                            </div>
+                        </div>
+
+                        <!-- Preview -->
+                        <div class="image-preview-container" id="previewContainer" style="display: none;">
+                            <p style="margin-bottom: 10px; font-size: 13px; color: var(--text-muted);">Preview:</p>
+                            <img id="previewImage" src="" alt="Preview">
+                        </div>
+                    </div>
+
+                    <!-- Ingredients -->
+                    <div class="form-section">
+                        <h3>🥘 Ingredients</h3>
+                        <div class="form-group">
+                            <label for="ingredients">Ingredients List *</label>
+                            <textarea id="ingredients" name="ingredients" required placeholder="Format: quantity-unit-item, separated by commas&#10;Example: 200-grams-flour, 2-cups-water, 1-pinch-salt"><% if (recipe.ingredients && recipe.ingredients.length > 0) { %><%= recipe.ingredients.map(i => `${i.quantity}-${i.unit}-${i.item}`).join(', ') %><% } %></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Instructions -->
+                    <div class="form-section">
+                        <h3>📝 Instructions</h3>
+                        <div class="form-group">
+                            <label for="instructions">Step-by-Step Instructions *</label>
+                            <textarea id="instructions" name="instructions" required placeholder="Enter each step separated by commas&#10;Example: Preheat oven, Mix ingredients, Bake for 30 minutes"><% if (recipe.instructions && recipe.instructions.length > 0) { %><%= recipe.instructions.map(i => i.description).join(', ') %><% } %></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display: flex; gap: 15px; margin-top: 30px;">
+                        <button type="submit" class="btn btn-primary">✅ Update Recipe</button>
+                        <a href="/recipes/<%= recipe._id %>" class="btn btn-outline">❌ Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Flavor Archive. All rights reserved. | Made with ❤️ for food lovers</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+    <script>
+        function switchTab(tabName, event) {
+            event.preventDefault();
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function previewImage(src) {
+            const previewContainer = document.getElementById('previewContainer');
+            const previewImage = document.getElementById('previewImage');
+            
+            if (src) {
+                previewImage.src = src;
+                previewContainer.style.display = 'block';
+            }
+        }
+
+        // Show preview on page load if image exists
+        window.addEventListener('load', function() {
+            const currentImage = '<%= recipe.image %>';
+            if (currentImage) {
+                previewImage(currentImage);
+            }
+        });
+
+        // Form validation
+        document.querySelector('.recipe-form').addEventListener('submit', function(e) {
+            const imageInput = document.querySelector('input[name="image"]:checked');
+            const imageUrl = document.getElementById('imageUrl').value;
+            
+            if (!imageInput && !imageUrl) {
+                e.preventDefault();
+                alert('Please select an image from the gallery or provide a URL');
+            }
+        });
+    </script>
+</body>
+</html>

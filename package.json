@@ -1,0 +1,28 @@
+{
+  "name": "flavor-archive",
+  "version": "1.0.0",
+  "description": "A website flavor archive that stores recipes and includes a blog section.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/data/seedRecipes.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "ejs": "^3.1.6",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "keywords": [
+    "recipes",
+    "blog",
+    "archive"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

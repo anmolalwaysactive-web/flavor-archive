@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Flavor Archive</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">
+                <span class="logo-icon">🍴</span>
+                <h1><span class="orange-text" style="color: #ff9f43;">Flavor</span><span class="green-text">Archive</span></h1>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Recipes</a></li>
+                <li><a href="/recipes/add">Add Recipe</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            <div class="nav-actions">
+                <form class="search-form" action="/search" method="GET">
+                    <input type="text" name="q" placeholder="Search recipes..." class="search-input">
+                    <button type="submit" class="search-btn">🔍 Search</button>
+                </form>
+                <button class="account-btn">👤 Account</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+            <div class="error-page" style="background: white; padding: 80px 40px; border-radius: 8px; text-align: center; margin: 40px 0;">
+                <div style="font-size: 72px; margin-bottom: 20px;">⚠️</div>
+                <h1 style="color: var(--dark-green); margin-bottom: 15px;">Oops! Something went wrong</h1>
+                <p style="font-size: 18px; color: #666; margin-bottom: 30px;"><%= message %></p>
+                
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 40px;">
+                    <a href="/" class="btn btn-primary">🏠 Go Home</a>
+                    <a href="/recipes" class="btn btn-secondary">🍳 Browse Recipes</a>
+                    <a href="/blog" class="btn btn-secondary">📖 Read Blog</a>
+                </div>
+
+                <div style="margin-top: 50px; padding-top: 30px; border-top: 2px solid #f0f0f0;">
+                    <p style="color: #999; font-size: 14px;">Need help? <a href="/" style="color: var(--primary-green); text-decoration: none;">Return to home page</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Flavor Archive. All rights reserved. | Made with ❤️ for food lovers</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
